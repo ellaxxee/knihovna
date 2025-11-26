@@ -83,12 +83,11 @@ final class Template_f08b4205da extends Latte\Runtime\Template
                 <td>
                     <a href="';
 			echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link('default', ['id' => $b->id])) /* line 36 */;
-			echo '" class="btn edit">EDIT</a>
+			echo '">EDIT</a>
                     <a href="';
 			echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link('delete!', ['id' => $b->id])) /* line 37 */;
 			echo '"
-                       onclick="return confirm(\'Do you really want to delete this book?\');"
-                       class="btn delete">DELETE</a>
+                       onclick="return confirm(\'Do you really want to delete this book?\');">DELETE</a>
                 </td>
             </tr>
 ';
@@ -96,7 +95,7 @@ final class Template_f08b4205da extends Latte\Runtime\Template
 		}
 
 		echo "\n";
-		if (!count($books)) /* line 44 */ {
+		if (!count($books)) /* line 43 */ {
 			echo '            <tr>
                 <td colspan="10" style="text-align:center; color:#777;">
                     No books found.

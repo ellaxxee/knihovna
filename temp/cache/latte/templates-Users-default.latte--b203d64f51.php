@@ -31,7 +31,7 @@ final class Template_b203d64f51 extends Latte\Runtime\Template
 
 <p><a href="';
 		echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link('Users:add')) /* line 7 */;
-		echo '">+ Add a new user</a></p>
+		echo '">Add a new user</a></p>
 <p><a href="';
 		echo LR\Filters::escapeHtmlAttr($this->global->uiControl->link('Book:default')) /* line 8 */;
 		echo '">List of books</a></p>

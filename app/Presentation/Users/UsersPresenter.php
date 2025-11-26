@@ -13,11 +13,9 @@ final class UsersPresenter extends Nette\Application\UI\Presenter
     private Explorer $database;
 
     public function __construct(Explorer $database)
-    {
-        parent::__construct();
-        $this->database = $database;
+    {        $this->database = $database;
+        
     }
-
     public function renderDefault(): void
     {
         $this->template->users = $this->database->table('users')->fetchAll();

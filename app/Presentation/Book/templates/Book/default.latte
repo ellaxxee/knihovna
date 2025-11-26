@@ -33,19 +33,10 @@
                 <td>{$b->available_copies}</td>
                 <td>{$b->added_at|date:'d.m.Y'}</td>
                 <td>
-                    <a n:href="default id => $b->id" class="btn edit">EDIT</a>
+                    <a n:href="default id => $b->id">EDIT</a>
                     <a n:href="delete! id => $b->id"
-                       onclick="return confirm('Do you really want to delete this book?');"
-                       class="btn delete">DELETE</a>
+                       onclick="return confirm('Do you really want to delete this book?');">DELETE</a>
                 </td>
             </tr>
         {/foreach}
-
-        {if !count($books)}
-            <tr>
-                <td colspan="10" style="text-align:center; color:#777;">
-                    No books found.
-                </td>
-            </tr>
-        {/if}
     </table>
