@@ -1,0 +1,22 @@
+{block content}
+
+ 
+        <h1>Welcome to Library 📚</h1>
+        <p>Discover our collection of books!</p>
+
+
+            <a n:href="Users:default" class="btn green">Users</a>
+            <a n:href="Book:default" class="btn blue">Books</a>
+  
+   
+        {foreach $books as $book}
+            <h3>{$book->title}</h3>
+            {if isset($book->author)}<p><strong>Author:</strong> {$book->author}</p>{/if}
+            {if isset($book->year)}<p><strong>Year:</strong> {$book->year}</p>{/if}
+            {if isset($book->isbn)}<p><strong>ISBN:</strong> {$book->isbn}</p>{/if}
+
+        {/foreach}
+
+
+</div>
+{/block}
