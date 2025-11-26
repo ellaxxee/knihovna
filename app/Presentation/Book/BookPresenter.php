@@ -19,16 +19,8 @@ final class BookPresenter extends Nette\Application\UI\Presenter
 
     public function renderDefault(?int $id = null): void
     {
-        $this->template->books = $this->db->table('books')->order('id DESC')->fetchAll();
-        $this->template->editing = false;
-
-        if ($id) {
-            $book = $this->db->table('books')->get($id);
-            if ($book) {
-                $this['bookForm']->setDefaults($book->toArray());
-                $this->template->editing = true;
-            }
-        }
+        $this->template->books = $this->db->table('books')->fetchAll();
+     
     }
 
     protected function createComponentBookForm(): Form
@@ -45,8 +37,6 @@ final class BookPresenter extends Nette\Application\UI\Presenter
             ->setRequired('Add ISBN.');
 
         $form->addInteger('publication_year', 'Publication Year:')
-            ->setHtmlAttribute('min', 0)
-            ->setHtmlAttribute('max', date('Y'))
             ->setRequired('Add publication year.');
 
         $form->addText('genre', 'Genre::')

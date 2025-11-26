@@ -94,15 +94,6 @@ final class Template_f08b4205da extends Latte\Runtime\Template
 
 		}
 
-		echo "\n";
-		if (!count($books)) /* line 43 */ {
-			echo '            <tr>
-                <td colspan="10" style="text-align:center; color:#777;">
-                    No books found.
-                </td>
-            </tr>
-';
-		}
 		echo '    </table>
 ';
 	}

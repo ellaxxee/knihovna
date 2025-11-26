@@ -18,26 +18,18 @@ final class UsersPresenter extends Nette\Application\UI\Presenter
     }
     public function renderDefault(): void
     {
+        // pripojeni na lattecko a nacteni dat z tabulky users
         $this->template->users = $this->database->table('users')->fetchAll();
     }
+        // uprava uzivatele podle id
 
-public function renderEdit(?int $id = null): void
-{
-    if ($id) {
-        $user = $this->database->table('users')->get($id);
-        if (!$user) {
-            $this->error('No user found with the given ID.');
-        }
+    public function actionEdit(int $id): void
 
-        $defaults = $user->toArray();
-
-        if (!in_array($defaults['role'], ['user', 'admin'])) {
-            $defaults['role'] = 'user'; 
-        }
-
-        $this['userForm']->setDefaults($defaults);
-    }
+{   //predvyplni data pro edit z formulare podle id
+    $user = $this->database->table('users')->get($id);
+    $this['userForm']->setDefaults($user->toArray());
 }
+
  protected function createComponentUserForm(): Form
 {
     $form = new Form;
@@ -68,41 +60,42 @@ public function renderEdit(?int $id = null): void
         ->setDisabled();
 
     $form->addSubmit('send', 'Save');
-
+    // kdyz se formular odesle, zavola metodu userFormSucceeded
     $form->onSuccess[] = [$this, 'userFormSucceeded'];
 
     return $form;
 }
-   public function userFormSucceeded(Form $form, \stdClass $values): void
+public function userFormSucceeded(Form $form, \stdClass $values): void
 {
+        // url ziska id parametru
     $id = $this->getParameter('id');
 
-    if ($id) {
-        $this->database->table('users')->get($id)->update([
-            'username' => $values->username,
-            'first_name' => $values->first_name,
-            'last_name' => $values->last_name,
-            'email' => $values->email,
-            'password' => password_hash($values->password, PASSWORD_DEFAULT),
-            'role' => $values->role,
-        ]);
-        $this->flashMessage('Uživatel byl upraven.', 'success');
-    } else {
-        $this->database->table('users')->insert([
-            'username' => $values->username,
-            'first_name' => $values->first_name,
-            'last_name' => $values->last_name,
-            'email' => $values->email,
-            'password' => password_hash($values->password, PASSWORD_DEFAULT),
-            'role' => $values->role,
-            'created_at' => date('Y-m-d H:i:s'),
-        ]);
-        $this->flashMessage('New user has been created.', 'success');
-    }
+        // priprava dat pro vlozeni nebo upravu do databaze 
+    $data = [
+        'username' => $values->username,
+        'first_name' => $values->first_name,
+        'last_name' => $values->last_name,
+        'email' => $values->email,
+        'password' => password_hash($values->password, PASSWORD_DEFAULT),
+        'role' => $values->role,
+    ];
 
+    // id exsituje - prida nove hodnoty do stejneho id 
+    if ($id) {
+        $this->database->table('users')->get($id)?->update($data);
+        $this->flashMessage('Uživatel byl upraven.', 'success');
+
+    // id neexsituje - vytvori nove id s casem vytvoreni
+
+    } else {
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $this->database->table('users')->insert($data);
+        $this->flashMessage('Nový uživatel byl vytvořen.', 'success');
+    }
+    // presmerovani na defaultni stranku presenteru - refresh s updejtlymi daty
     $this->redirect('default');
 }
-
+// mazani uzivatele podle filtru id 
     public function handleDelete(int $id): void
     {
         $this->database->table('users')->where('id', $id)->delete();

@@ -37,7 +37,7 @@ final class Template_6eb044472c extends Latte\Runtime\Template
 		unset($ʟ_args);
 
 		echo '
-<h1>Přidat nového uživatele</h1>
+<h1>Add a new user</h1>
 
 ';
 		$ʟ_tmp = $this->global->uiControl->getComponent('userForm');
